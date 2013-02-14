@@ -82,8 +82,11 @@ class NexusSite(object):
         """
         Returns True if the given HttpRequest has permission to view
         *at least one* page in the admin site.
+
+        For EmployInsight, restricting this to just superusers.
         """
-        permission = request.user.is_active and request.user.is_staff
+        permission = (request.user.is_active and request.user.is_staff
+                        and request.user.is_superuser)
         if extra_permission:
             permission = permission and request.user.has_perm(extra_permission)
         return permission
